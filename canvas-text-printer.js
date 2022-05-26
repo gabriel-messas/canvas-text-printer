@@ -10,59 +10,69 @@ function setupAndPrintText(canvas, text, areaWidth, areaHeight, x, y) {
     canvas.fillStyle = '#ffffff';
     canvas.font = `${size}px Stag`;
 
-    const lineHeight = size;
-    const lines = text.split(' ');
+    let lines = text.split(' ');
+
+    let finalLines = [];
+    let curIndex = 0;
+    while (true) {
+        console.log(curIndex, lines.length);
+        let tempLine = lines[curIndex];
+        let nextWord = curIndex + 1;
+        if (nextWord >= lines.length) {
+            break;
+        }
+        while (this._ctx.measureText(tempLine + lines[nextWord]).width <= areaWidth * 0.9) {
+            tempLine += (' ' + lines[nextWord]);
+            nextWord++;
+            if (nextWord === lines.length) {
+                break;
+            }
+        }
+        finalLines.push(tempLine);
+        curIndex = nextWord;
+        if (curIndex >= lines.length) {
+            break;
+        }
+    }
+
+    lines = finalLines;
+
+    let longest = 0;
+    let longestLine;
+    for (let line of lines) {
+        if (this._ctx.measureText(line).width > longest) {
+            longest = this._ctx.measureText(line).width;
+            longestLine = line;
+        }
+    }
 
     const imgHeight = areaHeight;
 
     // startY gets set to the text initial y here
     let startY = y;
     startY -= imgHeight / 2;
-    startY += 0.7 * lineHeight;
+    startY += 0.1 * imgHeight;
 
     // finalY get set to the last line of text's Y
-    let finalY = y + (imgHeight / 2) - (0.6 * lineHeight);
+    let finalY = y + (imgHeight / 2) - (0.1 * imgHeight);
 
-    const amountOfLines = lines.length - 1;
+    const amountOfLines = lines.length;
     let finalLineHeight = (finalY - startY) / amountOfLines;
 
-    while (finalLineHeight < size) {
-        size -= 0.01 * size;
-        // startY gets set to the text initial y here
-        startY = y;
-        startY -= imgHeight / 2;
-        startY += 0.7 * finalLineHeight;
-
-        // finalY get set to the last line of text's Y
-        finalY = y + (imgHeight / 2) - (0.6 * finalLineHeight);
-
-        finalLineHeight = (finalY - startY) / amountOfLines;
-        
+    while (true) {
+        let measure = this._ctx.measureText(longestLine);
+        if (measure.height > finalLineHeight * 0.9 || measure.width > areaWidth * 0.9) {
+            break;
+        }
+        size *= 1.01;
+        canvas.font = `${size}px Stag`;
     }
-    while (finalLineHeight > size) {
-        size += 0.01 * size;
-        // startY gets set to the text initial y here
-        startY = y;
-        startY -= imgHeight / 2;
-        startY += 0.7 * finalLineHeight;
-
-        // finalY get set to the last line of text's Y
-        finalY = y + (imgHeight / 2) - (0.6 * finalLineHeight);
-
-        finalLineHeight = (finalY - startY) / amountOfLines;
-    }
-
-    canvas.font = `${size}px Stag`;
 
     // startY gets set to the text initial y here
     startY = y;
     startY -= imgHeight / 2;
-    startY += 0.7 * finalLineHeight;
-
-    // finalY get set to the last line of text's Y
-    finalY = y + (imgHeight / 2) - (0.6 * finalLineHeight);
-
-    finalLineHeight = (finalY - startY) / amountOfLines;
+    startY += 0.1 * imgHeight;
+    startY += finalLineHeight * 0.5;
 
     for (let i = 0; i < lines.length; i++)
         canvas.fillText( lines[i], x, startY + (i * finalLineHeight), areaWidth * 0.9 );
