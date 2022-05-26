@@ -15,10 +15,10 @@ function setupAndPrintText(canvas, text, areaWidth, areaHeight, x, y) {
     let finalLines = [];
     let curIndex = 0;
     while (true) {
-        console.log(curIndex, lines.length);
         let tempLine = lines[curIndex];
         let nextWord = curIndex + 1;
         if (nextWord >= lines.length) {
+            finalLines.push(tempLine);
             break;
         }
         while (this._ctx.measureText(tempLine + lines[nextWord]).width <= areaWidth * 0.9) {
@@ -59,9 +59,12 @@ function setupAndPrintText(canvas, text, areaWidth, areaHeight, x, y) {
     const amountOfLines = lines.length;
     let finalLineHeight = (finalY - startY) / amountOfLines;
 
+    size = 1;
+    canvas.font = `${size}px Stag`;
+    const parameterMin = Math.min(areaHeight, areaWidth);
     while (true) {
         let measure = this._ctx.measureText(longestLine);
-        if (measure.height > finalLineHeight * 0.9 || measure.width > areaWidth * 0.9) {
+        if (measure.width > parameterMin * 0.9) {
             break;
         }
         size *= 1.01;
@@ -75,5 +78,5 @@ function setupAndPrintText(canvas, text, areaWidth, areaHeight, x, y) {
     startY += finalLineHeight * 0.5;
 
     for (let i = 0; i < lines.length; i++)
-        canvas.fillText( lines[i], x, startY + (i * finalLineHeight), areaWidth * 0.9 );
+        canvas.fillText( lines[i], x, startY + (i * finalLineHeight) );
 }
