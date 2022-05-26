@@ -65,5 +65,5 @@ function setupAndPrintText(canvas, text, areaWidth, areaHeight, x, y) {
     finalLineHeight = (finalY - startY) / amountOfLines;
 
     for (let i = 0; i < lines.length; i++)
-        canvas.fillText( lines[i], x, startY + (i * finalLineHeight) );
+        canvas.fillText( lines[i], x, startY + (i * finalLineHeight), areaWidth * 0.9 );
 }
