@@ -3,7 +3,7 @@
 
 // Prints text in HTML Canvas element with line breaks and proportional size calculations
 
-function setupAndPrintText(canvas, text, areaWidth, areaHeight, x, y) {
+function     setupAndPrintText(canvas, text, areaWidth, areaHeight, x, y) {
     let size = areaWidth / 7;
     canvas.textBaseline = 'middle';
     canvas.textAlign = 'center';
@@ -61,15 +61,11 @@ function setupAndPrintText(canvas, text, areaWidth, areaHeight, x, y) {
 
     size = 1;
     canvas.font = `${size}px Stag`;
-    const parameterMin = Math.min(areaHeight, areaWidth);
-    while (true) {
-        let measure = this._ctx.measureText(longestLine);
-        if (measure.width > parameterMin * 0.9) {
-            break;
-        }
-        size *= 1.01;
-        canvas.font = `${size}px Stag`;
-    }
+
+    const measure = this._ctx.measureText(longestLine);
+    const increaseRoom = Math.min( ( (areaWidth * 0.9) / measure.width ), ( (finalLineHeight * 0.9) / (measure.fontBoundingBoxAscent + measure.fontBoundingBoxDescent) ) );
+    size *= increaseRoom;
+    canvas.font = `${size}px Stag`;
 
     // startY gets set to the text initial y here
     startY = y;
