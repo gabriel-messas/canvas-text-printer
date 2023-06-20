@@ -3,7 +3,7 @@
 
 // Prints text in HTML Canvas element with line breaks and proportional size calculations
 
-function     setupAndPrintText(canvas, text, areaWidth, areaHeight, x, y) {
+function setupAndPrintText(canvas, text, areaWidth, areaHeight, x, y) {
     let size = areaWidth / 7;
     canvas.textBaseline = 'middle';
     canvas.textAlign = 'center';
