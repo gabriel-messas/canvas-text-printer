@@ -3,12 +3,12 @@
 
 // Prints text in HTML Canvas element with line breaks and proportional size calculations
 
-function setupAndPrintText(canvas, text, areaWidth, areaHeight, x, y) {
+function setupAndPrintText(context, text, areaWidth, areaHeight, x, y) {
     let size = areaWidth / 7;
-    canvas.textBaseline = 'middle';
-    canvas.textAlign = 'center';
-    canvas.fillStyle = '#ffffff';
-    canvas.font = `${size}px Stag`;
+    context.textBaseline = 'middle';
+    context.textAlign = 'center';
+    context.fillStyle = '#ffffff';
+    context.font = `${size}px Stag`;
 
     let lines = text.split(' ');
 
@@ -21,7 +21,7 @@ function setupAndPrintText(canvas, text, areaWidth, areaHeight, x, y) {
             finalLines.push(tempLine);
             break;
         }
-        while (this._ctx.measureText(tempLine + lines[nextWord]).width <= areaWidth * 0.9) {
+        while (context.measureText(tempLine + lines[nextWord]).width <= areaWidth * 0.9) {
             tempLine += (' ' + lines[nextWord]);
             nextWord++;
             if (nextWord === lines.length) {
@@ -40,8 +40,8 @@ function setupAndPrintText(canvas, text, areaWidth, areaHeight, x, y) {
     let longest = 0;
     let longestLine;
     for (let line of lines) {
-        if (this._ctx.measureText(line).width > longest) {
-            longest = this._ctx.measureText(line).width;
+        if (context.measureText(line).width > longest) {
+            longest = context.measureText(line).width;
             longestLine = line;
         }
     }
@@ -60,12 +60,12 @@ function setupAndPrintText(canvas, text, areaWidth, areaHeight, x, y) {
     let finalLineHeight = (finalY - startY) / amountOfLines;
 
     size = 1;
-    canvas.font = `${size}px Stag`;
+    context.font = `${size}px Stag`;
 
-    const measure = this._ctx.measureText(longestLine);
+    const measure = context.measureText(longestLine);
     const increaseRoom = Math.min( ( (areaWidth * 0.9) / measure.width ), ( (finalLineHeight * 0.9) / (measure.fontBoundingBoxAscent + measure.fontBoundingBoxDescent) ) );
     size *= increaseRoom;
-    canvas.font = `${size}px Stag`;
+    context.font = `${size}px Stag`;
 
     // startY gets set to the text initial y here
     startY = y;
@@ -74,5 +74,5 @@ function setupAndPrintText(canvas, text, areaWidth, areaHeight, x, y) {
     startY += finalLineHeight * 0.5;
 
     for (let i = 0; i < lines.length; i++)
-        canvas.fillText( lines[i], x, startY + (i * finalLineHeight) );
+        context.fillText( lines[i], x, startY + (i * finalLineHeight) );
 }
