@@ -1,7 +1,7 @@
 // Copyright 2022, Gabriel Esteves Messas, All rights reserved.
 // Reproduction is allowed, as long as the source is mentioned.
 
-// Prints text in HTML Canvas element with line breaks and proportional size calculations
+// Prints text into an HTML Canvas element, in a rectangular area, with automatic line breaks and proportional size calculations
 
 function setupAndPrintText(context, text, areaWidth, areaHeight, x, y) {
     let size = areaWidth / 7;
