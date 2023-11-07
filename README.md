@@ -1,2 +1,2 @@
 # canvas-text-printer
-Prints text in HTML Canvas element with line breaks and proportional size calculations
+Prints text into an HTML Canvas element, in a rectangular area, with automatic line breaks and proportional size calculations
